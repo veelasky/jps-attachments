@@ -1,29 +1,30 @@
 {
-    "name": "jalameta/jps-attachments",
-    "type": "laravel-plugin",
-    "require": {
-        "illuminate/support": "^5.6|^5.7",
-        "illuminate/console": "^5.6|^5.7",
-        "illuminate/filesystem": "^5.6|^5.7"
-    },
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Rifki Alhuraibi",
-            "email": "veelasky@gmail.com"
-        }
-    ],
-    "autoload": {
-        "psr-4": {
-            "Jalameta\\Attachments\\": "src"
-        }
-    },
-    "minimum-stability": "stable",
-    "extra": {
-        "laravel": {
-            "providers": [
-                "Jalameta\\Attachments\\AttachmentServiceProvider"
-            ]
-        }
+  "name": "jalameta/jps-attachments",
+  "type": "laravel-plugin",
+  "require": {
+    "illuminate/database": "^5.6|^5.7",
+    "illuminate/support": "^5.6|^5.7",
+    "illuminate/console": "^5.6|^5.7",
+    "illuminate/filesystem": "^5.6|^5.7"
+  },
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Rifki Alhuraibi",
+      "email": "veelasky@gmail.com"
     }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Jalameta\\Attachments\\": "src"
+    }
+  },
+  "minimum-stability": "stable",
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Jalameta\\Attachments\\AttachmentServiceProvider"
+      ]
+    }
+  }
 }
