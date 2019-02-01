@@ -18,7 +18,13 @@ class AttachmentServiceProvider extends LaravelServiceProvider
      */
     public function boot()
     {
-        if (Attachment::$runMigrations)
-            $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
+        if ($this->app->runningInConsole()) {
+            if (Attachment::$runMigrations)
+                $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
+
+            $this->publishes([
+                __DIR__ . '../database/migrations' => database_path('migrations')
+            ], 'jps-attachment-migration');
+        }
     }
 }
