@@ -22,9 +22,20 @@ class AttachmentServiceProvider extends LaravelServiceProvider
             if (Attachment::$runMigrations)
                 $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
 
-            $this->publishes([
-                __DIR__ . '../database/migrations' => database_path('migrations')
-            ], 'jps-attachment-migration');
+            $this->registerPublishes();
         }
+
+        $this->mergeConfigFrom(__DIR__ . '/../config/attachment.php', 'attachment');
+    }
+
+    public function registerPublishes()
+    {
+        $this->publishes([
+            __DIR__ . '/../database/migrations' => database_path('migrations')
+        ], 'migrations');
+
+        $this->publishes([
+            __DIR__ . '/../config/' => config_path()
+        ], 'config');
     }
 }
