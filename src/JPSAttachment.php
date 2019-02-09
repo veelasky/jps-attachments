@@ -9,7 +9,7 @@ use Illuminate\Routing\Router;
  *
  * @author      veelasky <veelasky@gmail.com>
  */
-class Attachment
+class JPSAttachment
 {
     /**
      * Indicates if attachment migrations will be run.

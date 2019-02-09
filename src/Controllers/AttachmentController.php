@@ -2,9 +2,10 @@
 
 namespace Jalameta\Attachments\Controllers;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Http\Request;
-use Jalameta\Attachments\Entities\Attachment;
+use Illuminate\Http\Response;
 
 /**
  * @author muhajirin <muhajirinlpu@gmail.com>
@@ -18,14 +19,16 @@ class AttachmentController
      * Route Name       : file
      * Route Method     : GET.
      *
-     * @param Attachment $attachment
+     * @param $attachment
      * @param Filesystem $filesystem
      * @param Request $request
      * @return \Illuminate\Http\Response|\Symfony\Component\HttpFoundation\BinaryFileResponse
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
-    public function file(Attachment $attachment, Filesystem $filesystem, Request $request)
+    public function file($attachment, Filesystem $filesystem, Request $request): Response
     {
+        $attachment = $this->getAttachment($attachment);
+
         $path = config('filesystems.disks.'. config('attachment.disk') .'.root');
 
         if ($request->has('stream') && (bool) $request->input('stream') === true) {
@@ -38,5 +41,17 @@ class AttachmentController
         }
 
         return response()->download($path.'/'.$attachment->path, $attachment->title);
+    }
+
+    /**
+     * @param $attachment
+     * @return \Illuminate\Database\Eloquent\Collection|Model|null
+     */
+    public function getAttachment($attachment)
+    {
+        /*** @var $class Model */
+        $class = config('attachment.model');
+
+        return $class::query()->find($attachment);
     }
 }

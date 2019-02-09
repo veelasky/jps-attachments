@@ -5,3 +5,4 @@
 - [ ] add jobs
 - [ ] add tests
 - [ ] write documentation
+- [ ] cloud support
