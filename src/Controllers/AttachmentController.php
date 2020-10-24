@@ -25,7 +25,7 @@ class AttachmentController
      * @return \Illuminate\Http\Response|\Symfony\Component\HttpFoundation\BinaryFileResponse
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
-    public function file($attachment, Filesystem $filesystem, Request $request): Response
+    public function file($attachment, Filesystem $filesystem, Request $request)
     {
         $attachment = $this->getAttachment($attachment);
 

@@ -37,6 +37,9 @@ class CreateAttachablesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('attachables');
+        Schema::table('attachable', function (Blueprint $table) {
+            $table->dropForeign('attachable_attachment_id_foreign');
+        });
+        Schema::dropIfExists('attachable');
     }
 }
