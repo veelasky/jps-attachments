@@ -14,6 +14,6 @@ trait Attachable
     {
         $attachment_class = config('attachment.model');
 
-        return $this->morphToMany($attachment_class, 'attachable');
+        return $this->morphToMany($attachment_class, 'attachable', 'attachable', 'attachable_id');
     }
 }
