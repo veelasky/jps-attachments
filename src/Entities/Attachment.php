@@ -2,11 +2,10 @@
 
 namespace Jalameta\Attachments\Entities;
 
-
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Storage;
-use Ramsey\Uuid\Uuid;
+use Illuminate\Support\Str;
 
 /**
  * @author muhajirin <muhajirinlpu@gmail.com>
@@ -58,7 +57,7 @@ class Attachment extends Model
         parent::boot();
 
         static::creating(function (self $attachment) {
-            $attachment->setAttribute($attachment->getKeyName(), Uuid::uuid1()->toString());
+            $attachment->setAttribute($attachment->getKeyName(), (string) Str::orderedUuid()->toString());
         });
 
         static::registerModelEvent('forceDeleted', function (self $attachment) {
