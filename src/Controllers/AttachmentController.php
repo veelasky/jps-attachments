@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * @author muhajirin <muhajirinlpu@gmail.com>
@@ -20,27 +21,24 @@ class AttachmentController
      * Route Method     : GET.
      *
      * @param $attachment
-     * @param Filesystem $filesystem
      * @param Request $request
      * @return \Illuminate\Http\Response|\Symfony\Component\HttpFoundation\BinaryFileResponse
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException|\Illuminate\Contracts\Container\BindingResolutionException
      */
-    public function file($attachment, Filesystem $filesystem, Request $request)
+    public function file($attachment, Request $request)
     {
         $attachment = $this->getAttachment($attachment);
 
-        $path = config('filesystems.disks.'. config('attachment.disk') .'.root');
+        $file = Storage::disk($attachment->getAttribute('disk'))->get($attachment->getAttribute('path'));
 
         if ($request->has('stream') && (bool) $request->input('stream') === true) {
-            $file = $filesystem->get($path.'/'.$attachment->path);
-
             $response = response()->make($file, 200);
-            $response->header('Content-Type', $attachment->mime);
+            $response->header('Content-Type', $attachment->getAttribute('mime'));
 
             return $response;
         }
 
-        return response()->download($path.'/'.$attachment->path, $attachment->title);
+        return response()->download($file, $attachment->getAttribute('title'));
     }
 
     /**

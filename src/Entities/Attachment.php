@@ -48,6 +48,16 @@ class Attachment extends Model
     ];
 
     /**
+     * Override the disk attribute
+     *
+     * @return \Illuminate\Config\Repository|\Illuminate\Contracts\Foundation\Application|mixed
+     */
+    public function getDiskAttribute()
+    {
+        return $this->getAttribute('disk') ?? config('attachment.disk');
+    }
+
+    /**
      * The "booting" method of the model.
      *
      * @return void
