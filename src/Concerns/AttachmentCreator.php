@@ -22,33 +22,23 @@ trait AttachmentCreator
      */
     public function create(UploadedFile $file, array $attributes)
     {
-        $attachment = new Attachment();
+        $attributes['path'] = $this->storeFile($file, $attributes['disk'] ?? config('attachment.disk'));
+        $attributes['mime'] = $this->getUploadedFileMime($file);
 
-        $disk = Arr::get($attributes, 'disk');
-
-        $attributes = Arr::add($attributes, 'path', $this->store($file, $disk));
-        $attributes = Arr::add($attributes, 'mime', $file->getMimeType());
-
-        $attachment->fill(
-            Arr::only($attributes, ['title', 'mime', 'type', 'path', 'disk', 'options', 'description'])
-        );
-
-        $attachment->save();
-
-        return $attachment;
+        return $this->save($attributes);
     }
 
     /**
      * Store file into disk
      *
      * @param UploadedFile $file
-     * @param null $disk
+     * @param string $disk
      * @return false|string
      */
-    public function store(UploadedFile $file, $disk = null)
+    public function storeFile(UploadedFile $file, string $disk)
     {
         return $file->storeAs('/', Str::uuid(), [
-            'disk' => $disk ?? config('attachment.disk')
+            'disk' => $disk
         ]);
     }
 
@@ -62,14 +52,45 @@ trait AttachmentCreator
      */
     public function createFromPath(string $path, array $attributes, $disk = null)
     {
+        $attributes['disk'] = $disk ?? config('attachment.disk');
+        $attributes['path'] = $path;
+        $attributes['mime'] = $this->getStorageFileMime($attributes['disk'], $attributes['path']);
+
+        return $this->save($attributes);
+    }
+
+    /**
+     * Get file mimetype that retrieved from laravel uploaded file instance.
+     *
+     * @param UploadedFile $file
+     * @return string|null
+     */
+    private function getUploadedFileMime(UploadedFile $file)
+    {
+        return $file->getMimeType();
+    }
+
+    /**
+     * Get file mimetype that retrieved from specific filesystem.
+     *
+     * @param string $disk
+     * @param string $path
+     * @return mixed
+     */
+    private function getStorageFileMime(string $disk, string $path)
+    {
+        return Storage::disk($disk)->mimeType($path);
+    }
+
+    /**
+     * Save attachment into database.
+     *
+     * @param array $attributes
+     * @return Attachment
+     */
+    private function save(array $attributes)
+    {
         $attachment = new Attachment();
-
-        $attributes = Arr::add($attributes, 'disk', $disk ?? config('attachment.disk'));
-        $attributes = Arr::add($attributes, 'path', $path);
-
-        $file = Storage::disk(Arr::get($attributes, 'disk'))->mimeType(Arr::get($attributes, 'path'));
-
-        $attributes = Arr::add($attributes, 'mime', $file);
 
         $attachment->fill(
             Arr::only($attributes, ['title', 'mime', 'type', 'path', 'disk', 'options', 'description'])
