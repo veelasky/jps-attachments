@@ -23,7 +23,7 @@ class AttachmentController
      * @param Filesystem $filesystem
      * @param Request $request
      * @return \Illuminate\Http\Response|\Symfony\Component\HttpFoundation\BinaryFileResponse
-     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException|\Illuminate\Contracts\Container\BindingResolutionException
      */
     public function file($attachment, Filesystem $filesystem, Request $request)
     {
