@@ -30,7 +30,15 @@ class AttachmentServiceProvider extends LaravelServiceProvider
         }
 
         $this->mergeConfigFrom(__DIR__ . '/../config/attachment.php', 'attachment');
+    }
 
+    /**
+     * Register any application services.
+     *
+     * @return void
+     */
+    public function register()
+    {
         $this->app->bind(AttachmentResponse::class, function (Application $application) {
             return new AttachmentResponse(
                 $application->make(Request::class),
