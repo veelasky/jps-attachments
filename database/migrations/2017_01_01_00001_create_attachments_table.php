@@ -23,6 +23,7 @@ class CreateAttachmentsTable extends Migration
             $table->uuid('id');
             $table->string('title');
             $table->string('mime');
+            $table->string('disk')->nullable();
             $table->string('path');
             $table->string('type')->default('attachment');
             $table->text('description')->nullable();

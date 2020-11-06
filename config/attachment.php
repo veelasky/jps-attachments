@@ -10,7 +10,7 @@ return [
     | Disk used by JPS Attachment
     |--------------------------------------------------------------------------
     |
-    | disk here is meaning for filesystem disk in laravel configuration
+    | Define default disk location to save the attachment
     | which is located in `config/filesystem`
     |
     */

@@ -1,6 +1,6 @@
 <?php
 
-namespace Jalameta\Attachments\Traits;
+namespace Jalameta\Attachments\Concerns;
 
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
