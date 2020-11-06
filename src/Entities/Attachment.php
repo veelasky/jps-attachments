@@ -54,7 +54,7 @@ class Attachment extends Model
      */
     public function getDiskAttribute()
     {
-        return $this->getAttribute('disk') ?? config('attachment.disk');
+        return $this->getOriginal('disk') ?? config('attachment.disk');
     }
 
     /**
