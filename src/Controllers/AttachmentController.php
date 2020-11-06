@@ -7,6 +7,8 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
+use Jalameta\Attachments\AttachmentResponse;
+use Jalameta\Attachments\Entities\Attachment;
 
 /**
  * @author muhajirin <muhajirinlpu@gmail.com>
@@ -15,30 +17,33 @@ use Illuminate\Support\Facades\Storage;
 class AttachmentController
 {
     /**
+     * Attachment response maker instance.
+     *
+     * @var AttachmentResponse
+     */
+    public $response;
+
+    public function __construct(AttachmentResponse $response)
+    {
+        $this->response = $response;
+    }
+
+    /**
      * File Http Proxy
      * Route Path       : /file/{attachment}
      * Route Name       : file
      * Route Method     : GET.
      *
      * @param $attachment
-     * @param Request $request
      * @return \Illuminate\Http\Response|\Symfony\Component\HttpFoundation\BinaryFileResponse
-     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException|\Illuminate\Contracts\Container\BindingResolutionException
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
-    public function file($attachment, Request $request)
+    public function file($attachment)
     {
+        /** @var Attachment $attachment */
         $attachment = $this->getAttachment($attachment);
 
-        $file = Storage::disk($attachment->getAttribute('disk'))->get($attachment->getAttribute('path'));
-
-        if ($request->has('stream') && (bool) $request->input('stream') === true) {
-            $response = response()->make($file, 200);
-            $response->header('Content-Type', $attachment->getAttribute('mime'));
-
-            return $response;
-        }
-
-        return response()->download($file, $attachment->getAttribute('title'));
+        return $this->response->streamOrDownload($attachment);
     }
 
     /**

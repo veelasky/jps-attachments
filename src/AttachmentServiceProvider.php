@@ -2,6 +2,10 @@
 
 namespace Jalameta\Attachments;
 
+use Illuminate\Contracts\Filesystem\Factory;
+use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Foundation\Application;
+use Illuminate\Http\Request;
 use Illuminate\Support\ServiceProvider as LaravelServiceProvider;
 
 /**
@@ -26,6 +30,14 @@ class AttachmentServiceProvider extends LaravelServiceProvider
         }
 
         $this->mergeConfigFrom(__DIR__ . '/../config/attachment.php', 'attachment');
+
+        $this->app->bind(AttachmentResponse::class, function (Application $application) {
+            return new AttachmentResponse(
+                $application->make(Request::class),
+                $application->make(Factory::class),
+                $application->make(ResponseFactory::class)
+            );
+        });
     }
 
     public function registerPublishes()
