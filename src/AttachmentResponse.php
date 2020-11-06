@@ -7,7 +7,6 @@ namespace Jalameta\Attachments;
 use Illuminate\Contracts\Filesystem\Factory;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Jalameta\Attachments\Entities\Attachment;
 
 class AttachmentResponse
@@ -55,11 +54,9 @@ class AttachmentResponse
      */
     public function streamOrDownload(Attachment $attachment)
     {
-        $file = Storage::disk($attachment->getAttribute('disk'))->get($attachment->getAttribute('path'));
-
         return $this->request->has('stream') && (bool) $this->request->input('stream') === true
-            ? $this->makeStreamResponse($file, $attachment)
-            : $this->makeDownloadResponse($file, $attachment);
+            ? $this->stream($attachment)
+            : $this->download($attachment);
     }
 
     /**
@@ -75,14 +72,28 @@ class AttachmentResponse
     }
 
     /**
+     * Get attachment file path
+     *
+     * @param Attachment $attachment
+     * @return string
+     */
+    public function getAttachmentFilePath(Attachment $attachment)
+    {
+        $basePath = config('filesystems.disks.'. $attachment->getAttribute('disk') .'.root');
+        return $basePath . "/" . $attachment->getAttribute('path');
+    }
+
+    /**
      * Make stream response file.
      *
-     * @param $file
      * @param Attachment $attachment
      * @return \Illuminate\Http\Response|mixed
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
-    public function makeStreamResponse($file, Attachment $attachment)
+    public function stream(Attachment $attachment)
     {
+        $file = $this->getAttachmentFile($attachment);
+
         $response = $this->response->make($file, 200);
         $response->header('Content-Type', $attachment->getAttribute('mime'));
 
@@ -92,12 +103,12 @@ class AttachmentResponse
     /**
      * Make download response.
      *
-     * @param $file
      * @param Attachment $attachment
      * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
      */
-    public function makeDownloadResponse($file, Attachment $attachment)
+    public function download(Attachment $attachment)
     {
-        return $this->response->download($file, $attachment->getAttribute('title'));
+        $path = $this->getAttachmentFilePath($attachment);
+        return $this->response->download($path, $attachment->getAttribute('title'));
     }
 }
