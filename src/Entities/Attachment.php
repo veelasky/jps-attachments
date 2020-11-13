@@ -71,7 +71,7 @@ class Attachment extends Model
         });
 
         static::registerModelEvent('forceDeleted', function (self $attachment) {
-            Storage::disk(config('attachment.disk'))->delete($attachment->getAttribute('path'));
+            Storage::disk($attachment->getAttribute('disk'))->delete($attachment->getAttribute('path'));
         });
     }
 }
