@@ -19,8 +19,8 @@ class CreateAttachablesTable extends Migration
     public function up()
     {
         Schema::create('attachable', function (Blueprint $table) {
-            $table->string('attachment_id');
-            $table->unsignedInteger('attachable_id');
+            $table->uuid('attachment_id');
+            $table->unsignedBigInteger('attachable_id');
             $table->string('attachable_type');
 
             $table->foreign('attachment_id')
