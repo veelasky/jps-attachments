@@ -4,12 +4,6 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-/**
- * Create `attachments` table
- *
- * @author      veelasky <veelasky@gmail.com>
- */
-
 class CreateAttachmentsTable extends Migration
 {
     /**
