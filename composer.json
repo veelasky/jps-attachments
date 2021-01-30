@@ -3,14 +3,15 @@
   "description": "Easy attachment library to attach your media files into something attachable.",
   "type": "laravel-plugin",
   "require": {
-    "php": ">=7.0",
-    "illuminate/database": ">=5.6",
-    "illuminate/support": ">=5.6",
-    "illuminate/console": ">=5.6",
-    "illuminate/filesystem": ">=5.6"
+    "php": "^7.2 || ^8.0",
+    "illuminate/database": ">=6.18",
+    "illuminate/support": ">=6.18",
+    "illuminate/console": ">=6.18",
+    "illuminate/filesystem": ">=6.18"
   },
   "require-dev": {
-    "orchestra/testbench": "^6.0"
+    "phpunit/phpunit": ">=8.5",
+    "orchestra/testbench": ">=4.0"
   },
   "suggest": {
     "moontoast/math": "^1.2"
@@ -25,6 +26,11 @@
   "autoload": {
     "psr-4": {
       "Jalameta\\Attachments\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\": "tests"
     }
   },
   "minimum-stability": "dev",
