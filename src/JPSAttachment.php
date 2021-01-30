@@ -4,11 +4,6 @@ namespace Jalameta\Attachments;
 
 use Illuminate\Routing\Router;
 
-/**
- * JPS Attachment
- *
- * @author      veelasky <veelasky@gmail.com>
- */
 class JPSAttachment
 {
     /**

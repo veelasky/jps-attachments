@@ -7,10 +7,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
-/**
- * @author muhajirin <muhajirinlpu@gmail.com>
- * at 2/1/2019 , 1:44 PM
- */
 class Attachment extends Model
 {
     use SoftDeletes;

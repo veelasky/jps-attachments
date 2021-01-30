@@ -8,11 +8,6 @@ use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 use Illuminate\Support\ServiceProvider as LaravelServiceProvider;
 
-/**
- * JPS Attachment service provider
- *
- * @author      veelasky <veelasky@gmail.com>
- */
 class AttachmentServiceProvider extends LaravelServiceProvider
 {
     /**

@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Jalameta\Attachments;
-
 
 use Illuminate\Contracts\Filesystem\Factory;
 use Illuminate\Contracts\Routing\ResponseFactory;

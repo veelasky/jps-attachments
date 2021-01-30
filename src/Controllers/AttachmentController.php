@@ -10,10 +10,6 @@ use Illuminate\Support\Facades\Storage;
 use Jalameta\Attachments\AttachmentResponse;
 use Jalameta\Attachments\Entities\Attachment;
 
-/**
- * @author muhajirin <muhajirinlpu@gmail.com>
- * at 2/1/2019 , 2:32 PM
- */
 class AttachmentController
 {
     /**

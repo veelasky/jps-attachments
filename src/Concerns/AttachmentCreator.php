@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Jalameta\Attachments\Concerns;
-
 
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Arr;
